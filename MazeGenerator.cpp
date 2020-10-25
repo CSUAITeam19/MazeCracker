@@ -1,10 +1,13 @@
 #include "MazeGenerator.h"
+#include <unordered_map>
+using std::vector;
+using std::unordered_map;
 
 namespace MazeCracker
 {
 	namespace Maze
 	{
-		void dig(vector<vector<int>>& maze, int x, int y)
+		void dig(vector<vector<int>>& maze, const int& x, const  int& y)
 		{
 			if (maze[x][y] == Wall)
 			{
@@ -16,7 +19,7 @@ namespace MazeCracker
 					for (int i = 4; i > 0; --i)
 					{
 						int r = rand() % i;
-						swap(direction[r], direction[i - 1]);
+						std::swap(direction[r], direction[i - 1]);
 
 						switch (direction[i - 1])
 						{
@@ -41,20 +44,12 @@ namespace MazeCracker
 		}
 
 		// Generate a maze
-		vector<vector<int>> generateMaze(vector<vector<int>>& result, int row, int column)
+		vector<vector<int>> generateMaze(vector<vector<int>>& result, const int& row, const int& column, bool initRand)
 		{
-			srand((unsigned)time(NULL));
+			if (initRand) srand((unsigned)time(NULL));
 
-			result.clear();
-			result.resize(row);
-			for (int i = 0; i < row; i++)
-			{
-				result[i].resize(column);
-				for each (auto var in result[i])
-				{
-					var = Wall;
-				}
-			}
+			// init 
+			result.assign(row, vector<int>(column, Wall));
 
 			// Set two V route
 			for (int i = 0; i < row; i++)
@@ -73,6 +68,29 @@ namespace MazeCracker
 			result[row - 3][column - 3] = 4;
 
 			return result;
+		}
+		
+		void printToStream(std::ostream& str, const std::vector<std::vector<int>>& maze)
+		{
+			for each (vector<int> row in maze)
+			{
+				for each (int cell in row)	
+				{
+					str << cellToString((Sign)cell);
+				}
+				str << '\n';
+			}
+		}
+
+		std::string cellToString(const enum Sign& cellSign)
+		{
+			unordered_map<Sign, std::string> map = unordered_map<Sign, std::string>
+			{ 
+				{Sign::Route, "  "},
+				{Sign::Wall, "¨‚"}
+			};
+			
+			return map[cellSign];
 		}
 	}
 }

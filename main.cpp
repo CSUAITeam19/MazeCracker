@@ -1,6 +1,7 @@
 #include "mainwindow.h"
-
 #include <QApplication>
+
+using namespace MazeCracker::UI;
 
 int main(int argc, char *argv[])
 {

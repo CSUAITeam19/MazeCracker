@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
+#include "IMaze.h"
 
 //using namespace std;
 
@@ -13,12 +14,6 @@ namespace MazeCracker
 {
 	namespace Maze
 	{
-		enum Sign
-		{
-			Wall = 0,
-			Route = 1
-		};
-
 		void dig(std::vector<std::vector<int>>& maze, const int& x, const  int& y);
 
 		// 生成迷宫二维数组
@@ -28,7 +23,7 @@ namespace MazeCracker
 		void printToStream(std::ostream& str, const std::vector<std::vector<int>>& maze);
 		
 		// 输出单元标志对应的字符串
-		std::string cellToString(const enum Sign& cellSign);
+		std::string cellToString(const MazeState& cellState);
 	}
 }
 

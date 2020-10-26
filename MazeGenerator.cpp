@@ -9,11 +9,11 @@ namespace MazeCracker
 	{
 		void dig(vector<vector<int>>& maze, const int& x, const  int& y)
 		{
-			if (maze[x][y] == Wall)
+			if (maze[x][y] == (int)MazeState::Wall)
 			{
-				if (maze[x + 1][y] + maze[x - 1][y] + maze[x][y + 1] + maze[x][y - 1] <= Route)
+				if ((maze[x + 1][y] + maze[x - 1][y] + maze[x][y + 1] + maze[x][y - 1]) & ((int)MazeState::Route|(int)MazeState::Wall))
 				{
-					maze[x][y] = Route;
+					maze[x][y] = (int)MazeState::Route;
 
 					int direction[4] = { 0,1,2,3 };
 					for (int i = 4; i > 0; --i)
@@ -43,25 +43,24 @@ namespace MazeCracker
 			}
 		}
 
-		// Generate a maze
 		vector<vector<int>> generateMaze(vector<vector<int>>& result, const int& row, const int& column, bool initRand)
 		{
 			if (initRand) srand((unsigned)time(NULL));
 
 			// init 
-			result.assign(row, vector<int>(column, Wall));
+			result.assign(row, vector<int>(column, (int)MazeState::Wall));
 
 			// Set two V route
 			for (int i = 0; i < row; i++)
 			{
-				result[i][row - 1] = Route;
-				result[i][0] = Route;
+				result[i][row - 1] = (int)MazeState::Route;
+				result[i][0] = (int)MazeState::Route;
 			}
 			// Set two H route
 			for (int i = 0; i < column; i++)
 			{
-				result[0][i] = Route;
-				result[column - 1][i] = Route;
+				result[0][i] = (int)MazeState::Route;
+				result[column - 1][i] = (int)MazeState::Route;
 			}
 			dig(result, row - 4, row - 2);
 			result[2][2] = 3;
@@ -76,21 +75,21 @@ namespace MazeCracker
 			{
 				for each (int cell in row)	
 				{
-					str << cellToString((Sign)cell);
+					str << cellToString((MazeState)cell);
 				}
 				str << '\n';
 			}
 		}
 
-		std::string cellToString(const enum Sign& cellSign)
+		std::string cellToString(const MazeState& cellMazeState)
 		{
-			unordered_map<Sign, std::string> map = unordered_map<Sign, std::string>
+			unordered_map<MazeState, std::string> map = unordered_map<MazeState, std::string>
 			{ 
-				{Sign::Route, "  "},
-				{Sign::Wall, "¨‚"}
+				{MazeState::Route, "  "},
+				{MazeState::Wall, "¨‚"}
 			};
 			
-			return map[cellSign];
+			return map[cellMazeState];
 		}
 	}
 }

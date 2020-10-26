@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#pragma warning(push, 0)
+
 #include <QMainWindow>
-#pragma warning(pop)
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,6 +21,14 @@ namespace MazeCracker
 
         private:
             Ui::MainWindow* ui;
+        private slots:
+            // 宽度改变
+            void on_spbWidth_valueChanged(int arg1);
+            // 高度改变
+            void on_spbHeight_valueChanged(int arg1);
+
+            // 生成随机迷宫
+            void on_btnGenerateMaze_click();
         };
     }
 }

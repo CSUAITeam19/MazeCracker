@@ -187,9 +187,12 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicCell.cpp" />
+    <ClCompile Include="BasicMaze.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
@@ -221,7 +224,12 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicCell.h" />
+    <ClInclude Include="BasicMaze.h" />
+    <ClInclude Include="ICell.h" />
+    <ClInclude Include="IMaze.h" />
     <ClInclude Include="MazeGenerator.h" />
+    <ClInclude Include="Vector2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

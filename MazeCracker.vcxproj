@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="BasicCell.cpp" />
     <ClCompile Include="BasicMaze.cpp" />
+    <ClCompile Include="RowVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
@@ -226,6 +227,7 @@
   <ItemGroup>
     <ClInclude Include="BasicCell.h" />
     <ClInclude Include="BasicMaze.h" />
+    <ClInclude Include="RowVisitor.h" />
     <ClInclude Include="ICell.h" />
     <ClInclude Include="IMaze.h" />
     <ClInclude Include="MazeGenerator.h" />

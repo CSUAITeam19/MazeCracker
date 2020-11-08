@@ -11,6 +11,7 @@ namespace MazeCracker
 		class ICell
 		{
 		public:
+			virtual ~ICell() = default;
 			// 获取单元的状态
 			virtual MazeState getState() const = 0;
 			// 设置单元的状态

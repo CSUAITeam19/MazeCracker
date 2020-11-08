@@ -1,15 +1,28 @@
 #include "BasicMaze.h"
-
+#include "RowVisitor.h"
+#include <stdexcept>
 using std::vector;
 
 namespace MazeCracker
 {
     namespace Maze
     {
+	    void BasicMaze::dataInit(std::vector<ICell*>& data, long long size)
+	    {
+			for (long long i = 0; i < size; i++)
+	    	{
+                data.push_back(new BasicCell((int)MazeState::Wall, this));
+	    	}
+	    }
+
         BasicMaze::BasicMaze(const int& row, const int& col)
         {
-            // 全部是墙
-            data = vector<vector<BasicCell>>(row, vector<BasicCell>(col, BasicCell((int)MazeState::Wall, this)));
+			if (row < 1 || col < 1)
+        	{
+                throw std::bad_array_new_length();
+        	}
+            // 数据初始化
+            dataInit(data, 1ll * row * col);
             // 记下尺寸
             size = Vector2D(row, col);
         }
@@ -26,13 +39,13 @@ namespace MazeCracker
             data.clear();
             size = Vector2D();
         }
-        ICell* BasicMaze::getCell(const int& row, const int& col) const
+        ICell const* BasicMaze::getCell(const Vector2D& pos) const
         {
-            return (ICell*)&data[row][col];
+            return data[1ll * pos.x * size.x + pos.y];
         }
-        ICell* BasicMaze::getCell(const Vector2D& pos) const
+        ICell * BasicMaze::getCell(const Vector2D& pos)
         {
-            return getCell(pos.x, pos.y);
+            return data[1ll * pos.x * size.x + pos.y];
         }
         void BasicMaze::setCell(const int& row, const int& col, const MazeState& newState)
         {
@@ -47,6 +60,30 @@ namespace MazeCracker
             //TODO
             return true;
         }
+
+        RowVisitor BasicMaze::operator[](int row)
+        {
+            return const_cast<BasicMaze const*>(this)->operator[](row);
+        }
+
+        RowVisitor BasicMaze::operator[](int row) const
+        {
+            //return const_cast<IMazeRow const*>((*const_cast<BasicMaze const*>(this))[row]);
+            if (row >= size.x)
+            {
+                throw std::out_of_range("row should be less than size.x!");
+            }
+            if (row < 0)
+            {
+                throw std::out_of_range("row should be greater than 0!");
+            }
+            return RowVisitor{ (IMaze*)this, row };
+        }
+
+	    BasicMaze::~BasicMaze()
+	    {
+            for (auto cell : data) delete cell;
+	    }
     }
 }
 

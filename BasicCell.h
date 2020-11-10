@@ -22,6 +22,7 @@ namespace MazeCracker
 
             virtual operator MazeState() const override;
 
+            BasicCell& operator=(const MazeState& state) override;
         };
     }
 }

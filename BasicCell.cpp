@@ -10,11 +10,11 @@ namespace MazeCracker
         }
         MazeState BasicCell::getState() const
         {
-            return (MazeState)state;
+            return static_cast<MazeState>(state);
         }
         void BasicCell::setState(const MazeState& newState)
         {
-            state = (int)newState;
+            state = static_cast<int>(newState);
         }
         IMaze* BasicCell::getContainer() const
         {
@@ -22,7 +22,13 @@ namespace MazeCracker
         }
         BasicCell::operator MazeState() const
         {
-            return (MazeState)state;
+            return static_cast<MazeState>(state);
+        }
+
+        BasicCell& BasicCell::operator=(const MazeState& state)
+        {
+            this->state = static_cast<int>(state);
+            return *this;
         }
     }
 }

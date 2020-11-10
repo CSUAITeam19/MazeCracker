@@ -18,6 +18,7 @@ namespace MazeCracker
 			virtual void setState(const MazeState& newState) = 0;
 			// ÒþÊ½×ª»»ÎªMazeState
 			virtual operator MazeState() const = 0;
+			virtual ICell& operator=(const MazeState& state) = 0;
 			virtual IMaze* getContainer() const = 0;
 		};
 	}

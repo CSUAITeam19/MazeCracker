@@ -11,7 +11,7 @@ namespace MazeCracker
 	    {
 			for (long long i = 0; i < size; i++)
 	    	{
-                data.push_back(new BasicCell((int)MazeState::Wall, this));
+                data.push_back(new BasicCell(static_cast<int>(MazeState::Wall), this));
 	    	}
 	    }
 
@@ -36,24 +36,37 @@ namespace MazeCracker
         }
         void BasicMaze::clear()
         {
-            data.clear();
+            for (auto cell : data) delete& cell;
+	    	data.clear();
             size = Vector2D();
         }
-        ICell const* BasicMaze::getCell(const Vector2D& pos) const
+
+	    const ICell& BasicMaze::getCell(const int& row, const int& col) const
+	    {
+            return *data[1ll * row + col];
+	    }
+
+	    ICell& BasicMaze::getCell(const int& row, const int& col)
         {
-            return data[1ll * pos.x * size.x + pos.y];
+            return *data[1ll * row + col];
         }
-        ICell * BasicMaze::getCell(const Vector2D& pos)
+
+	    const ICell& BasicMaze::getCell(const Vector2D& pos) const
         {
-            return data[1ll * pos.x * size.x + pos.y];
+            return *data[1ll * pos.x * size.x + pos.y];
+        }
+
+	    ICell& BasicMaze::getCell(const Vector2D& pos)
+        {
+            return *data[1ll * pos.x * size.x + pos.y];
         }
         void BasicMaze::setCell(const int& row, const int& col, const MazeState& newState)
         {
-            data[row][col].setState(newState);
+            (*this)[row][col].setState(newState);
         }
         void BasicMaze::setCell(const Vector2D& pos, const MazeState& newState)
         {
-            data[pos.x][pos.y].setState(newState);
+            (*this)[pos.x][pos.y].setState(newState);
         }
         bool BasicMaze::isValid() const
         {

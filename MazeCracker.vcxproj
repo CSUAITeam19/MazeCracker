@@ -132,6 +132,9 @@
       <QtUicDir>$(ProjectDir)</QtUicDir>
       <QtUicFileName>ui_%(Filename).h</QtUicFileName>
     </QtUic>
+    <PostBuildEvent>
+      <Command>lib /NOLOGO /OUT:"$(TargetDir)$(ProjectName).lib" "$(ProjectDir)$(OutputPath)*.obj"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -185,10 +188,14 @@
       <QtUicDir>$(ProjectDir)</QtUicDir>
       <QtUicFileName>ui_%(Filename).h</QtUicFileName>
     </QtUic>
+    <PostBuildEvent>
+      <Command>lib /NOLOGO /OUT:"$(TargetDir)$(ProjectName).lib" "$(ProjectDir)$(OutputPath)*.obj"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicCell.cpp" />
     <ClCompile Include="BasicMaze.cpp" />
+    <ClCompile Include="MazeState.cpp" />
     <ClCompile Include="RowVisitor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -227,6 +234,7 @@
   <ItemGroup>
     <ClInclude Include="BasicCell.h" />
     <ClInclude Include="BasicMaze.h" />
+    <ClInclude Include="MazeState.h" />
     <ClInclude Include="RowVisitor.h" />
     <ClInclude Include="ICell.h" />
     <ClInclude Include="IMaze.h" />

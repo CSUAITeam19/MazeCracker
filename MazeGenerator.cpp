@@ -9,11 +9,11 @@ namespace MazeCracker
 	{
 		void dig(vector<vector<int>>& maze, const int& x, const  int& y)
 		{
-			if (maze[x][y] == (int)MazeState::Wall)
+			if (maze[x][y] == static_cast<int>(MazeState::Wall))
 			{
-				if ((maze[x + 1][y] + maze[x - 1][y] + maze[x][y + 1] + maze[x][y - 1]) & ((int)MazeState::Route|(int)MazeState::Wall))
+				if ((maze[x + 1][y] + maze[x - 1][y] + maze[x][y + 1] + maze[x][y - 1]) & (static_cast<int>(MazeState::Route)|static_cast<int>(MazeState::Wall)))
 				{
-					maze[x][y] = (int)MazeState::Route;
+					maze[x][y] = static_cast<int>(MazeState::Route);
 
 					int direction[4] = { 0,1,2,3 };
 					for (int i = 4; i > 0; --i)
@@ -45,22 +45,22 @@ namespace MazeCracker
 
 		vector<vector<int>> generateMaze(vector<vector<int>>& result, const int& row, const int& column, bool initRand)
 		{
-			if (initRand) srand((unsigned)time(NULL));
+			if (initRand) srand(static_cast<unsigned>(time(NULL)));
 
 			// init 
-			result.assign(row, vector<int>(column, (int)MazeState::Wall));
+			result.assign(row, vector<int>(column, static_cast<int>(MazeState::Wall)));
 
 			// Set two V route
 			for (int i = 0; i < row; i++)
 			{
-				result[i][row - 1] = (int)MazeState::Route;
-				result[i][0] = (int)MazeState::Route;
+				result[i][row - 1] = static_cast<int>(MazeState::Route);
+				result[i][0] = static_cast<int>(MazeState::Route);
 			}
 			// Set two H route
 			for (int i = 0; i < column; i++)
 			{
-				result[0][i] = (int)MazeState::Route;
-				result[column - 1][i] = (int)MazeState::Route;
+				result[0][i] = static_cast<int>(MazeState::Route);
+				result[column - 1][i] = static_cast<int>(MazeState::Route);
 			}
 			dig(result, row - 4, row - 2);
 			result[2][2] = 3;
@@ -75,7 +75,7 @@ namespace MazeCracker
 			{
 				for each (int cell in row)	
 				{
-					str << cellToString((MazeState)cell);
+					str << cellToString(static_cast<MazeState>(cell));
 				}
 				str << '\n';
 			}

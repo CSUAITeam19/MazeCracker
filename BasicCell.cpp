@@ -1,4 +1,5 @@
 #include "BasicCell.h"
+//#include <iostream>
 namespace MazeCracker
 {
     namespace Maze
@@ -27,6 +28,8 @@ namespace MazeCracker
 
         BasicCell& BasicCell::operator=(const MazeState& state)
         {
+        	// debug
+            //std::cout << "Got an " << static_cast<char>(ToString(state)[1]) << std::endl;
             this->state = static_cast<int>(state);
             return *this;
         }

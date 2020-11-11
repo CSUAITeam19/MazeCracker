@@ -10,11 +10,11 @@ namespace MazeCracker
 			// 把指针和行号放进去即可
 		}
 		
-		const ICell& RowVisitor::operator[](const size_t& index) const
+		const ICell& RowVisitor::operator[](const int& index) const
 		{
 			return (*const_cast<IMaze const*>(implementer))[row][index];
 		}
-		ICell& RowVisitor::operator[](const size_t& index)
+		ICell& RowVisitor::operator[](const int& index)
 		{
 			return implementer->getCell(row, index);
 		}

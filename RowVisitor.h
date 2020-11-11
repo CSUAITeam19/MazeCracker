@@ -18,8 +18,8 @@ namespace MazeCracker
 		public:
 			// 直接传入一个迷宫来实现
 			RowVisitor(IMaze* implementer, int row) noexcept;
-			const ICell& operator[](const size_t& index) const;
-			ICell& operator[](const size_t& index);
+			const ICell& operator[](const int& index) const;
+			ICell& operator[](const int& index);
 		};
 	}
 }

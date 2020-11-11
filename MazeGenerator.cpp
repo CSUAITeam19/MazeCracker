@@ -1,5 +1,7 @@
 #include "MazeGenerator.h"
 #include <unordered_map>
+#include "Maze.h"
+
 using std::vector;
 using std::unordered_map;
 
@@ -7,91 +9,91 @@ namespace MazeCracker
 {
 	namespace Maze
 	{
-		void dig(vector<vector<int>>& maze, const int& x, const  int& y)
+		// 四个方向上最多一格标记为Route
+		inline bool oneRouteIn4Dir(const IMaze& maze, Vector2D pos)
 		{
-			if (maze[x][y] == static_cast<int>(MazeState::Wall))
+			int counter = 0;
+			for (auto dir : Vector2D::fourDirections)
 			{
-				if ((maze[x + 1][y] + maze[x - 1][y] + maze[x][y + 1] + maze[x][y - 1]) & (static_cast<int>(MazeState::Route)|static_cast<int>(MazeState::Wall)))
+				auto tempPos = pos + dir;
+				if (!maze.validPos(tempPos))
 				{
-					maze[x][y] = static_cast<int>(MazeState::Route);
+					counter++;
+				}else
+				{
+					if (maze.getCell(tempPos) == MazeState::Route) counter++;
+				}
+			}
+			return counter <= 1;
+		}
+		
+		void dig(IMaze& maze, const int& x, const  int& y)
+		{
+			if (maze[x][y] == MazeState::Wall)
+			{
+				if (oneRouteIn4Dir(maze, { x,y }))
+				{
+					maze[x][y] = MazeState::Route;
 
-					int direction[4] = { 0,1,2,3 };
+					int digList[4] = { 0,1,2,3 };
+					// classic implement of random list: this will make the dig operation order random
 					for (int i = 4; i > 0; --i)
 					{
 						int r = rand() % i;
-						std::swap(direction[r], direction[i - 1]);
-
-						switch (direction[i - 1])
-						{
-						case 0:
-							dig(maze, x - 1, y);
-							break;
-						case 1:
-							dig(maze, x + 1, y);
-							break;
-						case 2:
-							dig(maze, x, y - 1);
-							break;
-						case 3:
-							dig(maze, x, y + 1);
-							break;
-						default:
-							break;
-						}
+						std::swap(digList[r], digList[i - 1]);
+						auto tempPos = Vector2D{ x,y } + Vector2D::fourDirections[digList[i - 1]];
+						if (maze.validPos(tempPos)) dig(maze, tempPos.x, tempPos.y);
 					}
 				}
+
 			}
 		}
 
-		vector<vector<int>> generateMaze(vector<vector<int>>& result, const int& row, const int& column, bool initRand)
+		IMaze& generateMaze(IMaze& maze, const int& row, const int& col, bool initRand)
 		{
 			if (initRand) srand(static_cast<unsigned>(time(NULL)));
 
 			// init 
-			result.assign(row, vector<int>(column, static_cast<int>(MazeState::Wall)));
+			maze.clear();
+			// TODO: init
+			maze.resize(row, col);
+			maze[1][1] = MazeState::Entry;
+			maze[row - 2][col - 2] = MazeState::Exit;
+			// debug
+			//std::cout << "maze[1][1]=" << cellToString(maze[1][1]) << ", [2][2]=" << cellToString(maze[2][2]) << std::endl;
+			dig(maze, 1, 2);
+			
 
-			// Set two V route
-			for (int i = 0; i < row; i++)
-			{
-				result[i][row - 1] = static_cast<int>(MazeState::Route);
-				result[i][0] = static_cast<int>(MazeState::Route);
-			}
-			// Set two H route
-			for (int i = 0; i < column; i++)
-			{
-				result[0][i] = static_cast<int>(MazeState::Route);
-				result[column - 1][i] = static_cast<int>(MazeState::Route);
-			}
-			dig(result, row - 4, row - 2);
-			result[2][2] = 3;
-			result[row - 3][column - 3] = 4;
-
-			return result;
+			return maze;
 		}
-		
-		void printToStream(std::ostream& str, const std::vector<std::vector<int>>& maze)
+
+		void printToStream(std::ostream& str, const IMaze& maze)
 		{
-			for each (vector<int> row in maze)
+			maze.traverse([&str](const ICell& cell, bool lineEnd)
 			{
-				for each (int cell in row)	
-				{
-					str << cellToString(static_cast<MazeState>(cell));
-				}
-				str << '\n';
-			}
+				str << cellToString(cell);
+				if (lineEnd) str << '\n';
+			});
 		}
 
-		std::string cellToString(const MazeState& cellMazeState)
+		std::string cellToString(const MazeState& cellState)
 		{
 			unordered_map<MazeState, std::string> map = unordered_map<MazeState, std::string>
-			{ 
+			{
 				{MazeState::Route, "  "},
-				{MazeState::Wall, "▊"}
+				{MazeState::Wall, "█"},
+				{MazeState::Entry, "--"},
+				{MazeState::Exit, "++"}
 			};
-			
-			return map[cellMazeState];
+			//if(cellState==MazeState::Exit)
+			//{
+			//	
+			//}
+			//if (map[cellState] == "++")
+			//{
+			//	// wtf?
+			//}
+			return map[cellState];
 		}
 	}
 }
-
-

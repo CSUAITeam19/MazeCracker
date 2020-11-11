@@ -2,6 +2,7 @@
 #include "qmath.h"
 namespace MazeCracker
 {
+	Vector2D const Vector2D::fourDirections[4] = { {1,0},{0,1},{-1,0},{0,-1} };
 	Vector2D::Vector2D(int x, int y) :x(x), y(y)
 	{
 	}
@@ -17,6 +18,12 @@ namespace MazeCracker
 	{
 		return x == b.x && y == b.y;
 	}
+
+	bool Vector2D::operator!=(const Vector2D& b) const
+	{
+		return x != b.x || y != b.y;
+	}
+
 	float Vector2D::lengthFloat() const
 	{
 		return qSqrt(x * x + y * y);

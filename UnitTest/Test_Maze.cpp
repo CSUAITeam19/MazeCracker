@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "BasicMaze.h"
-#include "RowVisitor.h"
-#include "Vector2D.h"
+#include "Maze.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace MazeCracker::Maze;
@@ -20,10 +18,10 @@ namespace UnitTest
 			maze[0][0].setState(MazeState::Exit);
 			Assert::AreEqual(MazeState::Exit, maze[0][0].getState());
 
-			maze.getCell(Vector2D(0, 0)).setState(MazeState::Entry);
+			maze.getCell(Vector2D(0, 0)) = MazeState::Entry;
 			Assert::AreEqual(MazeState::Entry, maze.getCell(Vector2D(0, 0)).getState());
 
-			maze.getCell(0, 0).setState(MazeState::Route);
+			maze.getCell(0, 0) = MazeState::Route;
 			Assert::AreEqual(MazeState::Route, maze.getCell(0, 0).getState());
 
 			delete _maze;
@@ -44,6 +42,44 @@ namespace UnitTest
 					}
 				}
 			}
+		}
+		TEST_METHOD(resizeMaze)
+		{
+			auto _maze = BasicMaze(1, 1);
+			IMaze& maze = _maze;
+			maze.resize(16, 16);
+			Assert::AreEqual(16, maze.getWidth());
+			Assert::AreEqual(16, maze.getHeight());
+			for (int i = 0; i < 16; i++)
+			{
+				for (int j = 0; j < 16; j++)
+				{
+					if (MazeState::Wall != maze[i][j])
+					{
+						Assert::Fail(L"This position has wrong init value!");
+					}
+				}
+			}
+			maze.resize(20, 20);
+			Assert::AreEqual(20, maze.getWidth());
+			Assert::AreEqual(20, maze.getHeight());
+			for (int i = 0; i < 20; i++)
+			{
+				for (int j = 0; j < 20; j++)
+				{
+					if (MazeState::Wall != maze[i][j])
+					{
+						Assert::Fail(L"This position has wrong init value!");
+					}
+				}
+			}
+		}
+		TEST_METHOD(generateMaze)
+		{
+			auto _maze = BasicMaze(1, 1);
+			IMaze& maze = _maze;
+			Maze::generateMaze(maze, 16, 16, true);
+			Assert::IsTrue(maze.isValid());
 		}
 	};
 }

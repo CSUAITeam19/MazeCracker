@@ -16,7 +16,8 @@ namespace MazeCracker
             Vector2D size;
             virtual void dataInit(std::vector<ICell*>& data, long long size);
         public:
-            BasicMaze(const int& row = 1, const int& col = 1);
+            BasicMaze();
+			BasicMaze(const int& row, const int& col);
 
             int getWidth() const override;
             int getHeight() const override;

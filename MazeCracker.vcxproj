@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
@@ -195,6 +195,7 @@
   <ItemGroup>
     <ClCompile Include="BasicCell.cpp" />
     <ClCompile Include="BasicMaze.cpp" />
+    <ClCompile Include="GenericMaze.cpp" />
     <ClCompile Include="MazeState.cpp" />
     <ClCompile Include="MazeUtility.cpp" />
     <ClCompile Include="RowVisitor.cpp" />
@@ -235,6 +236,7 @@
   <ItemGroup>
     <ClInclude Include="BasicCell.h" />
     <ClInclude Include="BasicMaze.h" />
+    <ClInclude Include="GenericMaze.h" />
     <ClInclude Include="IAsyncMazeSearcher.h" />
     <ClInclude Include="IMazeSearcher.h" />
     <ClInclude Include="Maze.h" />

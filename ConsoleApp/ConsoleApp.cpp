@@ -1,13 +1,14 @@
 ﻿#include <iostream>
 #include "Maze.h"
 #include "MazeUtility.h"
+#include "GenericMaze.h"
 
 int main()
 {
 	using namespace std;
 	using namespace MazeCracker::Maze;
-
-	BasicMaze _maze = BasicMaze();
+	
+	GenericMaze<BasicCell> _maze{};
 	IMaze& maze = _maze;
 	int row, col;
 	cout << "please input row and col:\n";

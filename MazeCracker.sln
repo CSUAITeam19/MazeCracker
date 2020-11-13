@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{54D53F39-C59A-4A89-92C8-4DE5C82C8CD3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3C80E78-DCA4-4EA5-8755-FEA39373D525} = {D3C80E78-DCA4-4EA5-8755-FEA39373D525}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApp", "ConsoleApp\ConsoleApp.vcxproj", "{8FBD1E95-00B6-4552-90AE-36135B7CD243}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D3C80E78-DCA4-4EA5-8755-FEA39373D525} = {D3C80E78-DCA4-4EA5-8755-FEA39373D525}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MazeLib", "MazeLib\MazeLib.vcxproj", "{D3C80E78-DCA4-4EA5-8755-FEA39373D525}"
 EndProject

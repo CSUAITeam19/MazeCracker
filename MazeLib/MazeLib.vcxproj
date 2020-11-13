@@ -143,6 +143,7 @@
     <ClCompile Include="BasicMaze.cpp" />
     <ClCompile Include="GenericMaze.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
+    <ClCompile Include="MazeIO.cpp" />
     <ClCompile Include="MazeLib.cpp" />
     <ClCompile Include="MazeState.cpp" />
     <ClCompile Include="MazeUtility.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="IMazeSearcher.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MazeGenerator.h" />
+    <ClInclude Include="MazeIO.h" />
     <ClInclude Include="MazeState.h" />
     <ClInclude Include="MazeUtility.h" />
     <ClInclude Include="RowVisitor.h" />

@@ -1,5 +1,6 @@
 #include "Vector2D.h"
-#include "qmath.h"
+#include <math.h>
+
 namespace MazeCracker
 {
 	Vector2D const Vector2D::fourDirections[4] = { {1,0},{0,1},{-1,0},{0,-1} };
@@ -26,7 +27,7 @@ namespace MazeCracker
 
 	float Vector2D::lengthFloat() const
 	{
-		return qSqrt(x * x + y * y);
+		return sqrt(x * x + y * y);
 	}
 	int Vector2D::lengthInt() const
 	{
@@ -34,6 +35,6 @@ namespace MazeCracker
 	}
 	int Vector2D::lengthManhattan() const
 	{
-		return qAbs(x)+qAbs(y);
+		return abs(x) + abs(y);
 	}
 }

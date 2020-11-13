@@ -24,7 +24,7 @@
     <OutputDirectory>release\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <IntermediateDirectory>release\</IntermediateDirectory>
     <PrimaryOutput>MazeCracker</PrimaryOutput>
   </PropertyGroup>
@@ -133,7 +133,8 @@
       <QtUicFileName>ui_%(Filename).h</QtUicFileName>
     </QtUic>
     <PostBuildEvent>
-      <Command>lib /NOLOGO /OUT:"$(TargetDir)$(ProjectName).lib" "$(ProjectDir)$(OutputPath)*.obj"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -198,15 +199,10 @@
     <ClCompile Include="GenericMaze.cpp" />
     <ClCompile Include="MazeState.cpp" />
     <ClCompile Include="MazeUtility.cpp" />
+    <ClCompile Include="QMazeCell.cpp" />
     <ClCompile Include="RowVisitor.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
     <ClCompile Include="Vector2D.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="mainwindow.h">
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -242,6 +238,7 @@
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MazeState.h" />
     <ClInclude Include="MazeUtility.h" />
+    <QtMoc Include="QMazeCell.h" />
     <ClInclude Include="RowVisitor.h" />
     <ClInclude Include="ICell.h" />
     <ClInclude Include="IMaze.h" />

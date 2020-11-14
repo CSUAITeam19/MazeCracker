@@ -8,7 +8,7 @@ namespace MazeCracker
 {
 	namespace Maze
 	{
-		inline std::string repeat(int count, std::string str = "  ")
+		/*inline std::string repeat(int count, std::string str = "  ")
 		{
 			std::string temp;
 			for(;count>0;count--)
@@ -16,7 +16,7 @@ namespace MazeCracker
 				temp += str;
 			}
 			return temp;
-		}
+		}*/
 		
 		bool DFSSearcher::search(Vector2D from, Vector2D pos, vector<vector<bool>>& visitMap)
 		{

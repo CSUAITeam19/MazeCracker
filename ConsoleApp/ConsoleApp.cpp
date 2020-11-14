@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "Maze.h"
+#include <fstream>
 #include "MazeUtility.h"
 #include "GenericMaze.h"
 #include "MazeIO.h"
@@ -25,6 +25,24 @@ public:
 		static const std::string empty;
 		return empty;
 	}
+	template<typename T>
+	T getCmdOption(const std::string& option, T defaultValue, bool* haveArg) const
+	{
+		std::string temp = getCmdOption(option);
+		if (temp.empty())
+		{
+			if(haveArg) *haveArg = false;
+			return defaultValue;
+		}
+		else
+		{
+			T result{};
+			auto ss = std::istringstream(temp);
+			ss >> result;
+			if (haveArg) *haveArg = true;
+			return result;
+		}
+	}
 	/// @author iain
 	bool cmdOptionExists(const std::string& option) const
 	{
@@ -35,12 +53,16 @@ private:
 	std::vector <std::string> tokens;
 };
 
-const std::string help = "Usage: ConsoleApp.exe <width> <height> [-o path] [-scr] [-nosize]\n"
-"	width:		width of the maze\n"
-"	height:		height of the maze\n"
-"	[-o path]:	optional, path to output, default is \"./maze.txt\"\n"
-"	[-scr]:		optional, allow print to screen in highly readable character painting, default false\n"
-"	[-nosize]:	optional, won't print size info. default is false\n";
+const std::string help = "Usage: ConsoleApp.exe <-c|-s [-al algorithm]> [-w width] [-h height] [-i inPath] [-o ouPath] [-scr] [-nosize]\n"
+"	-c:				create maze\n"
+"	-s:				search maze\n"
+"		[-al algorithm]:	search algorithm, default=\"DFS\"\n"
+"	[-w width]:		width of the maze, default=8\n"
+"	[-h height]:	height of the maze, default=8\n"
+"	[-i inPath]:	optional, path to maze data, default is \"./maze.txt\"\n"
+"	[-o ouPath]:	optional, path to output search result, default is \"out.txt\"\n"
+"	[-scr]:			optional, allow print to screen in highly readable character painting, default false\n"
+"	[-nosize]:		optional, won't print size info. default is false\n";
 
 int main(const int argc, const char* args[])
 {
@@ -51,25 +73,48 @@ int main(const int argc, const char* args[])
 	int usedArgc = 1;
 	// cmd parsing
 	auto parser = InputParser(argc, args);
-	if (argc < 3)
+	bool createMode;
+	if (parser.cmdOptionExists("-c"))
 	{
-		cout << help;
-		return 1;
+		usedArgc++;
+		createMode = true;
+	}else if(parser.cmdOptionExists("-s"))
+	{
+		usedArgc++;
+		createMode = false;
+	}else
+	{
+		cout << "missing mode switch! try creating maze.\n" << help;
+		createMode = true;
 	}
-	int row = std::atoi(args[1]);
-	int col = std::atoi(args[2]);
-	usedArgc += 2;
-	string path;
 
-	if ((path = parser.getCmdOption("-o")).empty())
+	string mazePath;
+	if ((mazePath = parser.getCmdOption("-i")).empty())
 	{
-		path = "./maze.txt";
+		mazePath = "./maze.txt";
 	}
 	else
 	{
 		usedArgc += 2;
 	}
-
+	string searchDataPath;
+	if ((searchDataPath = parser.getCmdOption("-o")).empty())
+	{
+		searchDataPath = "./out.txt";
+	}
+	else
+	{
+		usedArgc += 2;
+	}
+	
+	bool hasArg;
+	int row;
+	int col;
+	row = parser.getCmdOption("-h", 8, &hasArg);
+	if (hasArg) usedArgc += 2;
+	col = parser.getCmdOption("-w", 8, &hasArg);
+	if (hasArg) usedArgc += 2;
+	
 	bool printToScreen = parser.cmdOptionExists("-scr");
 	if (printToScreen) usedArgc++;
 
@@ -84,10 +129,45 @@ int main(const int argc, const char* args[])
 	// run works
 	GenericMaze<BasicCell> _maze{};
 	IMaze& maze = _maze;
-	generateMaze(maze, row, col);
-	saveToFile(maze, path, nosize);
-	cout << "Output: " << path << endl;
-	if (printToScreen) printToStream(cout, maze);
+	if(createMode)
+	{
+		generateMaze(maze, row, col, true);
+		try
+		{
+			saveToFile(maze, mazePath, nosize);
+		}
+		catch (exception e)
+		{
+			cout << e.what();
+		}
+		cout << "Output: " << mazePath << endl;
+		if (printToScreen) printToStream(cout, maze);
+	}else
+	{
+		try
+		{	
+			readFromFile(maze, mazePath);
+		}
+		catch (exception e)
+		{
+			cout << e.what()<<endl;
+			return -1;
+		}
+		// TODO: decide which algorithm to use
+		DFSSearcher dfs = DFSSearcher(maze);
+		dfs.run();
+		auto file = ofstream(searchDataPath, ios::ate);
+		
+		file << dfs.path();
+		if (printToScreen)
+		{
+			printToStream(cout, maze);
+			cout << dfs.path();
+		}
+		file.close();
+		cout << "Output: " << searchDataPath << endl;
+	}
+	
 	
 	/*BasicMaze maze = BasicMaze{};
 	readFromFile(maze, "maze.txt");

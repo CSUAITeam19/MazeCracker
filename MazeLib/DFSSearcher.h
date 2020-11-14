@@ -11,7 +11,7 @@ namespace MazeCracker
 		{
 		private:
 			IMaze& maze;
-			MazePath mazePath;
+			MemorablePath mazePath;
 			bool search(Vector2D from, Vector2D pos, std::vector<std::vector<bool>>& visitMap);
 		public:
 			explicit DFSSearcher(IMaze& maze);

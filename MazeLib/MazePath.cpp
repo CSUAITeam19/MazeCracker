@@ -1,4 +1,5 @@
 #include "MazePath.h"
+#include <iostream>
 
 namespace MazeCracker
 {
@@ -81,6 +82,60 @@ namespace MazeCracker
 			{
 				func(pos);
 			}
+		}
+
+		void MazePath::toStream(std::ostream& ostr) const
+		{
+			traverse([&ostr](const Vector2D& pos)
+			{
+				ostr << pos.x << ' ' << pos.y << '\n';
+			});
+		}
+
+		std::ostream& operator<<(std::ostream& ostr, const MazePath& path)
+		{
+			path.toStream(ostr);
+			return ostr;
+		}
+
+		std::ostream& operator<<(std::ostream& ostr, const Operation& oper)
+		{
+			ostr << oper.pos.x << ' ' << oper.pos.y << ' ' << (oper.isPush ? '1' : '0') << ' ' << oper.cost << ' ';
+			return ostr;
+		}
+
+		MemorablePath::MemorablePath(const IMaze& maze) :MazePath(maze)
+		{
+			
+		}
+
+		void MemorablePath::push(const Vector2D& pos)
+		{
+			MazePath::push(pos);
+			historyOper.emplace_back(pos, true, cost);
+		}
+
+		bool MemorablePath::tryPush(const Vector2D& pos)
+		{
+			bool temp = MazePath::tryPush(pos);
+			if (temp) historyOper.emplace_back(pos, true, cost);
+			return temp;
+		}
+
+		Vector2D MemorablePath::pop()
+		{
+			auto temp = MazePath::pop();
+			historyOper.emplace_back(temp, false, cost);
+			return temp;
+		}
+
+		void MemorablePath::toStream(std::ostream& ostr) const
+		{
+			for (Operation oper : historyOper)
+			{
+				ostr << oper << std::endl;
+			}
+			ostr << std::endl;
 		}
 	}
 }

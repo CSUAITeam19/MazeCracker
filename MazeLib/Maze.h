@@ -7,3 +7,4 @@
 #include "BasicCell.h"
 #include "BasicMaze.h"
 #include "MazeGenerator.h"
+#include "DFSSearcher.h"

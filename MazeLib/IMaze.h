@@ -45,10 +45,16 @@ namespace MazeCracker
 			virtual void setCell(const int& row, const int& col, const MazeState& newState) = 0;
 			// 设置一个单元
 			virtual void setCell(const Vector2D& pos, const MazeState& newState) = 0;
+			// 从from到to是否可行, 可行则把cost设为相应的代价
+			virtual bool walkable(const Vector2D& from, const Vector2D& to, int* cost) const = 0;
 			// 获取迷宫行访问器
 			virtual RowVisitor operator[](int row) = 0;
 			// 获取迷宫行访问器
 			virtual RowVisitor operator[](int row) const = 0;
+			// 获取一个单元
+			virtual const ICell& operator[](Vector2D pos) const = 0;
+			// 获取一个单元
+			virtual ICell& operator[](Vector2D pos) = 0;
 			// 是有效迷宫
 			virtual bool isValid() const = 0;
 		};

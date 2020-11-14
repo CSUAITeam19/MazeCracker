@@ -35,11 +35,12 @@ private:
 	std::vector <std::string> tokens;
 };
 
-const std::string help = "Usage: ConsoleApp.exe <width> <height> [-o path] [-scr]\n"
+const std::string help = "Usage: ConsoleApp.exe <width> <height> [-o path] [-scr] [-nosize]\n"
 "	width:		width of the maze\n"
 "	height:		height of the maze\n"
 "	[-o path]:	optional, path to output, default is \"./maze.txt\"\n"
-"	[-scr]:		optional, allow print to screen in highly readable character painting, default false\n";
+"	[-scr]:		optional, allow print to screen in highly readable character painting, default false\n"
+"	[-nosize]:	optional, won't print size info. default is false\n";
 
 int main(const int argc, const char* args[])
 {
@@ -71,6 +72,9 @@ int main(const int argc, const char* args[])
 
 	bool printToScreen = parser.cmdOptionExists("-scr");
 	if (printToScreen) usedArgc++;
+
+	bool nosize = parser.cmdOptionExists("-nosize");
+	if (nosize) usedArgc++;
 	if (usedArgc < argc)
 	{
 		cout << help;
@@ -81,7 +85,18 @@ int main(const int argc, const char* args[])
 	GenericMaze<BasicCell> _maze{};
 	IMaze& maze = _maze;
 	generateMaze(maze, row, col);
-	saveToFile(maze, path);
+	saveToFile(maze, path, nosize);
 	cout << "Output: " << path << endl;
 	if (printToScreen) printToStream(cout, maze);
+	
+	/*BasicMaze maze = BasicMaze{};
+	readFromFile(maze, "maze.txt");
+	printToStream(cout, maze);
+	DFSSearcher searcher{ maze };
+	searcher.run();
+	searcher.path().traverse([](const MazeCracker::Vector2D& pos)
+	{
+		cout << pos.x << ' ' << pos.y << '\n';
+	});*/
+	
 }

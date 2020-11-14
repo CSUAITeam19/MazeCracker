@@ -11,14 +11,15 @@ namespace MazeCracker
 		class IAsyncMazeSearcher :virtual public IMazeSearcher
 		{
 		public:
-			void run() override;
+
 			// 开始运算
 			virtual void begin() = 0;
 			// 执行下一步搜索
 			virtual void next() = 0;
+			void run(Vector2D entrancePos = Vector2D(1, 1)) override;
 		};
 
-		inline void IAsyncMazeSearcher::run()
+		inline void IAsyncMazeSearcher::run(Vector2D entrancePos)
 		{
 			// do everything in one for loop
 			for (begin(); !finished(); next());

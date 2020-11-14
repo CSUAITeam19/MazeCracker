@@ -41,9 +41,9 @@ namespace MazeCracker
 			}
 		}
 
-		BasicMaze::BasicMaze():data{},size({0,0})
+		BasicMaze::BasicMaze() :data{}, size({ 0,0 })
 		{
-			
+
 		}
 
 		BasicMaze::BasicMaze(const int& row, const int& col)
@@ -140,6 +140,33 @@ namespace MazeCracker
 		{
 			(*this)[pos.x][pos.y].setState(newState);
 		}
+
+		bool BasicMaze::walkable(const Vector2D& from, const Vector2D& to, int* cost) const
+		{
+			// not out of the maze
+			if (!validPos(to)) return false;
+			// no wall
+			if (getCell(to) == MazeState::Wall) return false;
+			// four directions
+			const auto delta = to - from;
+			if (delta.lengthManhattan() <= 1)
+			{
+				if (cost) *cost = 10;
+				return true;
+			}
+			// too far
+			if (abs(delta.x) > 1 || abs(delta.y) > 1) return false;
+			// either beside path has
+			if (getCell(from + Vector2D(delta.x, 0)) != MazeState::Wall ||
+				getCell(from + Vector2D(0, delta.y)) != MazeState::Wall)
+			{
+				if (cost) *cost = 14;
+				return true;
+			}
+
+			return false;
+		}
+
 		bool BasicMaze::isValid() const
 		{
 			return Maze::isValid(*this);
@@ -162,6 +189,16 @@ namespace MazeCracker
 				throw std::out_of_range("row should be greater than 0!");
 			}
 			return RowVisitor{ (IMaze*)this, row };
+		}
+
+		const ICell& BasicMaze::operator[](Vector2D pos) const
+		{
+			return getCell(pos);
+		}
+
+		ICell& BasicMaze::operator[](Vector2D pos)
+		{
+			return getCell(pos);
 		}
 
 		BasicMaze::~BasicMaze()

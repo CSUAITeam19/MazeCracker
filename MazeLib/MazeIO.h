@@ -9,7 +9,7 @@ namespace MazeCracker
 	{
 		void readFromFile(Maze::IMaze& maze, const std::string& path);
 
-		void saveToFile(const Maze::IMaze& maze, const std::string& path);
+		void saveToFile(const Maze::IMaze& maze, const std::string& path, bool nosize = false);
 	}
 }
 

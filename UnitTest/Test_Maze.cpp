@@ -78,8 +78,23 @@ namespace UnitTest
 		{
 			auto _maze = BasicMaze(1, 1);
 			IMaze& maze = _maze;
+			int failCount = 0;
+			for (int i = 0; i < 100; i++)
+			{
+				Maze::generateMaze(maze, 16, 16, true);
+				if(!maze.isValid()) failCount++;
+			}
+			Assert::IsTrue(failCount <= 2, L"Too many fail generate!");
+		}
+		TEST_METHOD(searcher)
+		{
+			auto _maze = BasicMaze(1, 1);
+			IMaze& maze = _maze;
 			Maze::generateMaze(maze, 16, 16, true);
-			Assert::IsTrue(maze.isValid());
+			DFSSearcher _s = DFSSearcher(maze);
+			IMazeSearcher& searcher = _s;
+			searcher.run();
+			Assert::IsTrue(searcher.finished(), L"can't find available path!");
 		}
 	};
 }

@@ -141,10 +141,12 @@
   <ItemGroup>
     <ClCompile Include="BasicCell.cpp" />
     <ClCompile Include="BasicMaze.cpp" />
+    <ClCompile Include="DFSSearcher.cpp" />
     <ClCompile Include="GenericMaze.cpp" />
     <ClCompile Include="MazeGenerator.cpp" />
     <ClCompile Include="MazeIO.cpp" />
     <ClCompile Include="MazeLib.cpp" />
+    <ClCompile Include="MazePath.cpp" />
     <ClCompile Include="MazeState.cpp" />
     <ClCompile Include="MazeUtility.cpp" />
     <ClCompile Include="RowVisitor.cpp" />
@@ -153,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="BasicCell.h" />
     <ClInclude Include="BasicMaze.h" />
+    <ClInclude Include="DFSSearcher.h" />
     <ClInclude Include="GenericMaze.h" />
     <ClInclude Include="IAsyncMazeSearcher.h" />
     <ClInclude Include="ICell.h" />
@@ -161,6 +164,7 @@
     <ClInclude Include="Maze.h" />
     <ClInclude Include="MazeGenerator.h" />
     <ClInclude Include="MazeIO.h" />
+    <ClInclude Include="MazePath.h" />
     <ClInclude Include="MazeState.h" />
     <ClInclude Include="MazeUtility.h" />
     <ClInclude Include="RowVisitor.h" />

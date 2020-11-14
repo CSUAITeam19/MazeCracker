@@ -34,10 +34,10 @@ namespace MazeCracker
 			file.close();
 		}
 
-		void saveToFile(const Maze::IMaze& maze, const std::string& path)
+		void saveToFile(const Maze::IMaze& maze, const std::string& path, bool nosize)
 		{
 			auto file = std::ofstream(path, std::ios::out);
-			file << maze.getWidth() << ' ' << maze.getHeight()<<std::endl;
+			if (!nosize) file << maze.getWidth() << ' ' << maze.getHeight() << std::endl;
 			maze.traverse([&file](const Maze::ICell& cell, bool isLineEnd)
 			{
 				file << cell << ' ';

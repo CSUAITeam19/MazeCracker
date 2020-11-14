@@ -12,6 +12,9 @@ namespace MazeCracker
 		{
 		protected:
 			void dataInit(std::vector<ICell*>& data, long long size) override;
+		public:
+			GenericMaze();
+			GenericMaze(const int& row, const int& col);
 		};
 		template <class TCell>
 		void GenericMaze<TCell>::dataInit(std::vector<ICell*>& data, long long size)
@@ -46,6 +49,16 @@ namespace MazeCracker
 				// set all wall
 				for (ICell* cell : data) (*cell) = MazeState::Wall;
 			}
+		}
+
+		template <class TCell>
+		GenericMaze<TCell>::GenericMaze(): BasicMaze()
+		{
+		}
+
+		template <class TCell>
+		GenericMaze<TCell>::GenericMaze(const int& row, const int& col): BasicMaze(row,col)
+		{
 		}
 	}
 }

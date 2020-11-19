@@ -58,3 +58,4 @@ compile_commands.json
 # bin
 debug
 release
+*.txt

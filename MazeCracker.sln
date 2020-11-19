@@ -15,7 +15,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MazeLib", "MazeLib\MazeLib.vcxproj", "{D3C80E78-DCA4-4EA5-8755-FEA39373D525}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UCS", "Algorithm\Algorithm.vcxproj", "{290BAA15-FD24-4A30-B4ED-DAE38E41FA19}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Algorithm", "Algorithm\Algorithm.vcxproj", "{290BAA15-FD24-4A30-B4ED-DAE38E41FA19}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestConsole", "TestConsole\TestConsole.vcxproj", "{161A70B8-89D1-4660-BF34-CFA52F46D5DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{290BAA15-FD24-4A30-B4ED-DAE38E41FA19} = {290BAA15-FD24-4A30-B4ED-DAE38E41FA19}
+		{D3C80E78-DCA4-4EA5-8755-FEA39373D525} = {D3C80E78-DCA4-4EA5-8755-FEA39373D525}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +63,14 @@ Global
 		{290BAA15-FD24-4A30-B4ED-DAE38E41FA19}.Release|x64.Build.0 = Release|x64
 		{290BAA15-FD24-4A30-B4ED-DAE38E41FA19}.Release|x86.ActiveCfg = Release|Win32
 		{290BAA15-FD24-4A30-B4ED-DAE38E41FA19}.Release|x86.Build.0 = Release|Win32
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Debug|x64.ActiveCfg = Debug|x64
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Debug|x64.Build.0 = Debug|x64
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Debug|x86.ActiveCfg = Debug|Win32
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Debug|x86.Build.0 = Debug|Win32
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Release|x64.ActiveCfg = Release|x64
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Release|x64.Build.0 = Release|x64
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Release|x86.ActiveCfg = Release|Win32
+		{161A70B8-89D1-4660-BF34-CFA52F46D5DD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

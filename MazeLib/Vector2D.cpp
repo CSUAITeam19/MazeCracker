@@ -4,6 +4,7 @@
 namespace MazeCracker
 {
 	Vector2D const Vector2D::fourDirections[4] = { {1,0},{0,1},{-1,0},{0,-1} };
+	Vector2D const Vector2D::diagonalDirection[4] = { {1,1},{1,-1},{-1,-1},{-1,1} };
 	Vector2D::Vector2D(int x, int y) :x(x), y(y)
 	{
 	}

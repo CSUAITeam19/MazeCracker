@@ -18,9 +18,9 @@ namespace MazeCracker
 			
 			bool finished() override;
 			void run(Vector2D entrancePos = Vector2D(1, 1)) override;
-			int totalCost() override;
+			/*int totalCost() override;
 			int totalStep() override;
-			const MazePath& path() override;
+			const MazePath& path() override;*/
 			
 			std::string searcherName() const override;
 

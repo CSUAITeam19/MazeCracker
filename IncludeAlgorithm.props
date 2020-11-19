@@ -4,12 +4,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
   <ItemDefinitionGroup>
-    <Link>
-      <AdditionalDependencies>$(OutDir)MazeLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)MazeLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Algorithm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>$(OutDir)Algorithm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

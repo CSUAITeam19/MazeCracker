@@ -59,7 +59,7 @@ namespace MazeCracker
 			return maze.getCell(mazePath.peek()) == MazeState::Exit;
 		}
 
-		int DFSSearcher::totalCost()
+		/*int DFSSearcher::totalCost()
 		{
 			return mazePath.totalCost();
 		}
@@ -72,7 +72,7 @@ namespace MazeCracker
 		const MazePath& DFSSearcher::path()
 		{
 			return mazePath;
-		}
+		}*/
 
 		std::string DFSSearcher::searcherName() const
 		{

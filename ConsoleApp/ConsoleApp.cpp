@@ -158,12 +158,12 @@ int main(const int argc, const char* args[])
 		dfs.run();
 		auto file = ofstream(searchDataPath, ios::ate);
 		
-		file << dfs.path();
+		/*file << dfs.path();
 		if (printToScreen)
 		{
 			printToStream(cout, maze);
 			cout << dfs.path();
-		}
+		}*/
 		file.close();
 		cout << "Output: " << searchDataPath << endl;
 	}

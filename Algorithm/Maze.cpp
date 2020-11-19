@@ -7,11 +7,17 @@ int startx, starty, endx, endy;
 vector<vector<int>> maze;//迷宫地图数据
 vector<vector<int>> vis;//是否访问过和能否访问
 vector<vector<int>> cost;//耗费 
-queue<Point> openlist;//访问表
+queue<Point> openList;//访问表
 ofstream out("D://answer.txt");
-int caozuo[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
-int caozuo2[4][2] = { {1,1},{1,-1},{-1,1},{-1,-1} };
-void readin() {
+/// <summary>
+/// 垂直(v)水平(h)的四个方向
+/// </summary>
+int vhDirections[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
+/// <summary>
+/// 斜向(slant)的四个方向
+/// </summary>
+int slantDirections[4][2] = { {1,1},{1,-1},{-1,1},{-1,-1} };
+void readFile() {
     ifstream in("D:\\maze.txt");//地图数据地址
     in >> width>>height;
     maze.resize(width);
@@ -64,30 +70,33 @@ void show() {
     }
     out << endl;
 }
+/// <summary>
+/// 等代价搜索
+/// </summary>
 void UCS() {
     int num = 0;
-    openlist.push(Point(startx, starty));//将开始节点加入
+    openList.push(Point(startx, starty));//将开始节点加入
     int x_now = startx, y_now = starty;
     while (true) {
         num++;
         int cznum = 1;
         out << num << " ";
         int cost_now = 100000;
-        if (openlist.empty()) {
+        if (openList.empty()) {
             out << "无效！";
             return;
         }
-        int lenth = openlist.size();
+        int lenth = openList.size();
         for (int i = 0; i < lenth; i++)
         {
-            Point point_now = openlist.front();//取出
-            openlist.pop();//删除队列头
+            Point point_now = openList.front();//取出
+            openList.pop();//删除队列头
             if (point_now.x == endx && point_now.y == endy)//终点出现了！
             {
                 x_now = point_now.x;
                 y_now = point_now.y;
                 cost_now = cost[x_now][y_now];
-                openlist.push(point_now);
+                openList.push(point_now);
                 break;
             }
             else if (cost[point_now.x][point_now.y] < cost_now)
@@ -96,17 +105,17 @@ void UCS() {
                 y_now = point_now.y;
                 cost_now= cost[x_now][y_now];
             }
-            openlist.push(point_now);
+            openList.push(point_now);
         } 
         while (true) {
-            Point point_now = openlist.front();//取出
-            openlist.pop();//删除队列
+            Point point_now = openList.front();//取出
+            openList.pop();//删除队列
             if (point_now.x == x_now && point_now.y == y_now)break;
-            openlist.push(point_now);
+            openList.push(point_now);
         }
         vis[x_now][y_now] = 3;//标记为使用过
         for (int i = 0; i < 4; i++) {//这里是上左下右
-            int x_next = x_now + caozuo[i][0], y_next = y_now + caozuo[i][1];
+            int x_next = x_now + vhDirections[i][0], y_next = y_now + vhDirections[i][1];
             if (vis[x_next][y_next] != 5)//排除是墙
             {
                 if (vis[x_next][y_next] == 1)//如果在队列里
@@ -120,7 +129,7 @@ void UCS() {
             }
         }
         for (int i = 0; i < 4; i++) {//这里是上左下右（斜）
-            int x_next = x_now + caozuo2[i][0], y_next = y_now + caozuo2[i][1];
+            int x_next = x_now + slantDirections[i][0], y_next = y_now + slantDirections[i][1];
             if (vis[x_next][y_now] == 5 && vis[x_now][y_next] == 5)continue;
             if (vis[x_next][y_next] != 5)
             {
@@ -143,7 +152,7 @@ void UCS() {
             return;
         }
         for (int i = 0; i < 4; i++) {//这里是上左下右
-            int x_next = x_now + caozuo[i][0], y_next = y_now + caozuo[i][1];
+            int x_next = x_now + vhDirections[i][0], y_next = y_now + vhDirections[i][1];
             if (vis[x_next][y_next] != 5)//排除是墙
             {
                 if (vis[x_next][y_next] == 1)//如果在队列里
@@ -154,14 +163,14 @@ void UCS() {
                 else if(vis[x_next][y_next]!=3)//不在队列里且没有使用过
                 {
                     vis[x_next][y_next] = 1;
-                    openlist.push(Point(x_next,y_next));
+                    openList.push(Point(x_next,y_next));
                     cost[x_next][y_next] = cost_now + 10;
                     out << "add  " << x_next << " " << y_next <<" "<<cost[x_next][y_next] << endl;
                 }
             }
         }
         for (int i = 0; i < 4; i++) {//这里是上左下右（斜）
-            int x_next = x_now + caozuo2[i][0], y_next = y_now + caozuo2[i][1];
+            int x_next = x_now + slantDirections[i][0], y_next = y_now + slantDirections[i][1];
             if (vis[x_next][y_now] == 5 && vis[x_now][y_next] == 5)continue;
             if (vis[x_next][y_next] != 5)
             {
@@ -173,7 +182,7 @@ void UCS() {
                 else if(vis[x_next][y_next] != 3)//不在队列里且没有使用过
                 {
                     vis[x_next][y_next] = 1;
-                    openlist.push(Point(x_next, y_next));
+                    openList.push(Point(x_next, y_next));
                     cost[x_next][y_next] = cost_now + 14;
                     out << "add  " << x_next << " " << y_next << " " << cost[x_next][y_next] << endl;
                 }
@@ -184,7 +193,7 @@ void UCS() {
 }
 int main()
 {
-    readin();
+    readFile();
     UCS();
     out.close();
    // cout << "Hello World!\n";

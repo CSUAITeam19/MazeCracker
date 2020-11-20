@@ -55,12 +55,9 @@ namespace MazeCracker
 
 			// init 
 			maze.clear();
-			// TODO: init
 			maze.resize(row, col);
 			maze[1][1] = MazeState::Entry;
 			maze[row - 2][col - 2] = MazeState::Exit;
-			// debug
-			//std::cout << "maze[1][1]=" << cellToString(maze[1][1]) << ", [2][2]=" << cellToString(maze[2][2]) << std::endl;
 			dig(maze, 1, 2);
 			
 

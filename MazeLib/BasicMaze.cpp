@@ -97,9 +97,9 @@ namespace MazeCracker
 			{
 				for (int col = 0; col < size.y - 1; col++)
 				{
-					func(*data[1ll * row * size.x + col], false);
+					func(*data[1ll * row * size.y + col], false);
 				}
-				func(*data[1ll * row * size.x + (1ll * size.y - 1)], true);
+				func(*data[1ll * row * size.y + (1ll * size.y - 1)], true);
 			}
 		}
 
@@ -115,22 +115,22 @@ namespace MazeCracker
 
 		const ICell& BasicMaze::getCell(const int& row, const int& col) const
 		{
-			return *data[1ll * row * size.x + col];
+			return *data[1ll * row * size.y + col];
 		}
 
 		ICell& BasicMaze::getCell(const int& row, const int& col)
 		{
-			return *data[1ll * row * size.x + col];
+			return *data[1ll * row * size.y + col];
 		}
 
 		const ICell& BasicMaze::getCell(const Vector2D& pos) const
 		{
-			return *data[1ll * pos.x * size.x + pos.y];
+			return *data[1ll * pos.x * size.y + pos.y];
 		}
 
 		ICell& BasicMaze::getCell(const Vector2D& pos)
 		{
-			return *data[1ll * pos.x * size.x + pos.y];
+			return *data[1ll * pos.x * size.y + pos.y];
 		}
 		void BasicMaze::setCell(const int& row, const int& col, const MazeState& newState)
 		{
@@ -179,15 +179,6 @@ namespace MazeCracker
 
 		RowVisitor BasicMaze::operator[](int row) const
 		{
-			//return const_cast<IMazeRow const*>((*const_cast<BasicMaze const*>(this))[row]);
-			if (row >= size.x)
-			{
-				throw std::out_of_range("row should be less than size.x!");
-			}
-			if (row < 0)
-			{
-				throw std::out_of_range("row should be greater than 0!");
-			}
 			return RowVisitor{ (IMaze*)this, row };
 		}
 

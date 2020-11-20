@@ -90,6 +90,7 @@ namespace MazeCracker
                 if (maze[x_now][y_now] == MazeState::Exit)
                 {
                     cout << "find it!" << endl;
+                    isFinished = true;
                     return;
                 }
                 for (int i = 0; i < 4; i++)
@@ -135,7 +136,7 @@ namespace MazeCracker
                 }
                 //        show();
             }
-            isFinished = true;
+            
         }
 
 		UCS::UCS(const IMaze& maze, std::ostream& out) : maze(maze), out(out)

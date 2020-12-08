@@ -59,11 +59,11 @@ namespace MazeCracker
 		}
 		int BasicMaze::getWidth() const
 		{
-			return size.x;
+			return size.y;
 		}
 		int BasicMaze::getHeight() const
 		{
-			return size.y;
+			return size.x;
 		}
 		void BasicMaze::clear()
 		{

@@ -1,4 +1,5 @@
 #include "MazeIO.h"
+#include <iostream>
 #include <fstream>
 
 namespace MazeCracker
@@ -34,17 +35,23 @@ namespace MazeCracker
 			file.close();
 		}
 
+		void saveToOStream(const Maze::IMaze& maze, std::ostream& ostr, bool nosize)
+		{
+			if (!nosize) ostr << maze.getHeight() << ' ' << maze.getWidth() << std::endl;
+			maze.traverse([&ostr](const Maze::ICell& cell, bool isLineEnd)
+			{
+				ostr << cell << ' ';
+				if (isLineEnd)ostr << std::endl;
+			});
+		}
+
 		void saveToFile(const Maze::IMaze& maze, const std::string& path, bool nosize)
 		{
 			auto file = std::ofstream(path, std::ios::out);
-			if (!nosize) file << maze.getHeight() << ' ' << maze.getWidth() << std::endl;
-			maze.traverse([&file](const Maze::ICell& cell, bool isLineEnd)
-			{
-				file << cell << ' ';
-				if (isLineEnd)file << std::endl;
-			});
+			saveToOStream(maze, file, nosize);
 			file.close();
 		}
+
 	}
 }
 

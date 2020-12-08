@@ -13,6 +13,9 @@ namespace MazeCracker
 		{
 		protected:
 			std::vector<ICell*> data;
+			/// <summary>
+			/// x代表行数, y代表列数
+			/// </summary>
 			Vector2D size;
 			virtual void dataInit(std::vector<ICell*>& data, long long size);
 		public:

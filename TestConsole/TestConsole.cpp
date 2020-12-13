@@ -11,8 +11,10 @@ using namespace MazeCracker::IO;
 int main()
 {
 	BasicMaze maze;
-	readFromFile(maze, "./maze.txt");
+	/*readFromFile(maze, "./maze.txt");
 	auto out = ofstream("./result.txt");
 	UCS ucs = UCS(maze, out);
-	ucs.run({ 1,1 });
+	ucs.run({ 1,1 });*/
+	generateMaze(maze, 16, 16, false);
+	printToStream(cout, maze);
 }

@@ -1,5 +1,6 @@
 #include "MazeGenerator.h"
 #include <unordered_map>
+#include <stack>
 #include "Maze.h"
 
 using std::vector;
@@ -9,7 +10,7 @@ namespace MazeCracker
 {
 	namespace Maze
 	{
-		// �ĸ����������һ����ΪRoute
+		// 四个方向上最多一格标记为Route
 		inline bool oneRouteIn4Dir(const IMaze& maze, Vector2D pos)
 		{
 			int counter = 0;
@@ -26,26 +27,61 @@ namespace MazeCracker
 			}
 			return counter <= 1;
 		}
-		
-		void dig(IMaze& maze, const int& x, const  int& y)
+
+		inline void randomizeArray(int* arr, int size)
 		{
-			if (maze[x][y] == MazeState::Wall)
+			for (int i = size - 1; i >= 0; i--)
 			{
-				if (oneRouteIn4Dir(maze, { x,y }))
+				int r = rand() % (i + 1);
+				std::swap(arr[r], arr[i]);
+			}
+		}
+		
+		void dig(IMaze& maze, const int& inX, const int& inY)
+		{
+			std::stack<Vector2D> stepPosStack{};
+			std::stack<int*> digListStack{};
+			std::stack<int> dirIndexStack{};
+			stepPosStack.push({ inX,inY });
+			digListStack.push(new int[4]{0,1,2,3});
+			randomizeArray(digListStack.top(), 4);
+			dirIndexStack.push(0);
+			while (!stepPosStack.empty())
+			{
+				auto x = stepPosStack.top().x;
+				auto y = stepPosStack.top().y;
+
+				// printToStream(cout, maze);
+				if(maze[x][y] == MazeState::Route)
 				{
-					maze[x][y] = MazeState::Route;
-
-					int digList[4] = { 0,1,2,3 };
-					// classic implement of random list: this will make the dig operation order random
-					for (int i = 4; i > 0; --i)
+					// 切换到已开启位置的下一个方向
+					auto i = dirIndexStack.top();
+					dirIndexStack.pop();
+					dirIndexStack.push(i + 1);
+					if (i >= 3)
 					{
-						int r = rand() % i;
-						std::swap(digList[r], digList[i - 1]);
-						auto tempPos = Vector2D{ x,y } + Vector2D::fourDirections[digList[i - 1]];
-						if (maze.validPos(tempPos)) dig(maze, tempPos.x, tempPos.y);
+						// 该点4个方向已经开完
+						stepPosStack.pop();
+						delete digListStack.top();
+						digListStack.pop();
+						dirIndexStack.pop();
+						continue;
 					}
+					auto delta = Vector2D::fourDirections[digListStack.top()[dirIndexStack.top()]];
+					x += delta.x; y += delta.y;
 				}
-
+				if (!maze.validPos({ x,y }) || maze[x][y] != MazeState::Wall || !oneRouteIn4Dir(maze, { x,y }))
+				{
+					continue;
+				}
+				
+				maze[x][y] = MazeState::Route;
+				
+				// 添加新开启的点, 进入下一个开路操作
+				stepPosStack.push({x,y});
+				digListStack.push(new int[4]{ 0,1,2,3 });
+				randomizeArray(digListStack.top(), 4);
+				dirIndexStack.push(-1);
 			}
 		}
 
@@ -78,7 +114,7 @@ namespace MazeCracker
 			unordered_map<MazeState, std::string> map = unordered_map<MazeState, std::string>
 			{
 				{MazeState::Route, "  "},
-				{MazeState::Wall, "��"},
+				{MazeState::Wall, "█"},
 				{MazeState::Entry, "--"},
 				{MazeState::Exit, "++"}
 			};

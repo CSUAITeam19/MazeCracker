@@ -10,7 +10,7 @@ namespace MazeCracker
 {
 	namespace Maze
 	{
-		// å››ä¸ªæ–¹å‘ä¸Šæœ€å¤šä¸€æ ¼æ ‡è®°ä¸ºRoute
+		// ËÄ¸ö·½ÏòÉÏ×î¶àÒ»¸ñ±ê¼ÇÎªRoute
 		inline bool oneRouteIn4Dir(const IMaze& maze, Vector2D pos)
 		{
 			int counter = 0;
@@ -54,13 +54,13 @@ namespace MazeCracker
 				// printToStream(cout, maze);
 				if(maze[x][y] == MazeState::Route)
 				{
-					// åˆ‡æ¢åˆ°å·²å¼€å¯ä½ç½®çš„ä¸‹ä¸€ä¸ªæ–¹å‘
+					// ÇĞ»»µ½ÒÑ¿ªÆôÎ»ÖÃµÄÏÂÒ»¸ö·½Ïò
 					auto i = dirIndexStack.top();
 					dirIndexStack.pop();
 					dirIndexStack.push(i + 1);
 					if (i >= 3)
 					{
-						// è¯¥ç‚¹4ä¸ªæ–¹å‘å·²ç»å¼€å®Œ
+						// ¸Ãµã4¸ö·½ÏòÒÑ¾­¿ªÍê
 						stepPosStack.pop();
 						delete digListStack.top();
 						digListStack.pop();
@@ -77,7 +77,7 @@ namespace MazeCracker
 				
 				maze[x][y] = MazeState::Route;
 				
-				// æ·»åŠ æ–°å¼€å¯çš„ç‚¹, è¿›å…¥ä¸‹ä¸€ä¸ªå¼€è·¯æ“ä½œ
+				// Ìí¼ÓĞÂ¿ªÆôµÄµã, ½øÈëÏÂÒ»¸ö¿ªÂ·²Ù×÷
 				stepPosStack.push({x,y});
 				digListStack.push(new int[4]{ 0,1,2,3 });
 				randomizeArray(digListStack.top(), 4);
@@ -114,7 +114,7 @@ namespace MazeCracker
 			unordered_map<MazeState, std::string> map = unordered_map<MazeState, std::string>
 			{
 				{MazeState::Route, "  "},
-				{MazeState::Wall, "â–ˆ"},
+				{MazeState::Wall, "¨€"},
 				{MazeState::Entry, "--"},
 				{MazeState::Exit, "++"}
 			};
